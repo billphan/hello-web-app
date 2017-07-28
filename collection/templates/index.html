@@ -5,6 +5,8 @@
 {% endblock title %}
 
 {% block content %}
-  <h1>Hello World!</h1>
-  <p>This is my name: {{ thing|truncatewords:1 }}</p>
+  {% for thing in things %}
+  <h2>{{ thing.name }}</h2>
+  <p>{{ thing.description }}</p>
+  {% endfor %}
 {% endblock content %}
