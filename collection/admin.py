@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
 from collection.models import Thing
 
 # set up automated slug creation

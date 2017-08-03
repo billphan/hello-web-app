@@ -5,7 +5,6 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
-# Create your views here.
 def index(request):
     things = Thing.objects.all()
 
