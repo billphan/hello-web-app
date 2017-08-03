@@ -5,7 +5,6 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
-
 # Create your views here.
 def index(request):
     things = Thing.objects.all()
@@ -58,4 +57,14 @@ def create_thing(request):
 
     return render(request, 'things/create_thing.html', {
         'form': form,
+    })
+
+def browse_by_name(request, initial=None):
+    if initial:
+        things = Thing.objects.filter(name__istartswith=initial).order_by('name')
+    else:
+        things = Thing.objects.all().order_by('name')
+    return render(request, 'search/search.html', {
+        'things': things,
+        'initial': initial,
     })
