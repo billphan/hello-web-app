@@ -87,11 +87,11 @@ def contact(request):
             # email the profile with the contact info
             template = get_template('contact_template.txt')
 
-            context = Context({
+            context = {
                 'contact_name': contact_name,
                 'contact_email': contact_email,
                 'form_content': form_content,
-            })
+            }
             content = template.render(context)
 
             email = EmailMessage(
