@@ -1,6 +1,5 @@
 from django.contrib import admin
-
-from collection.models import Thing
+from collection.models import Thing, Social
 
 # set up automated slug creation
 class ThingAdmin(admin.ModelAdmin):
@@ -9,3 +8,9 @@ class ThingAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 admin.site.register(Thing, ThingAdmin)
+
+class SocialAdmin(admin.ModelAdmin):
+    model = Social
+    list_display = ('network', 'username',)
+
+admin.site.register(Social, SocialAdmin)
