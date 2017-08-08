@@ -14,6 +14,13 @@ class Thing(Timestamp):
     slug = models.SlugField(unique=True)
     user = models.OneToOneField(User, blank=True, null=True)
 
+    def __unicode__(self):
+        return self.name
+
+    # new helper method
+    def get_absolute_url(self):
+        return "/things/%s/" % self.slug
+
 class Social(models.Model):
     SOCIAL_TYPES = (
         ('twitter', 'Twitter'),
