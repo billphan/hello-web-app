@@ -3,9 +3,8 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.template.defaultfilters import slugify
 from django.template.loader import get_template
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, mail_admins
 from django.template import Context
-
 from collection.forms import ThingForm, ContactForm
 from collection.models import Thing
 
@@ -111,3 +110,5 @@ def contact(request):
     return render(request, 'contact.html', {
         'form': form_class,
     })
+
+mail_admins("Our subject line", "Our content")
