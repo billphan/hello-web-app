@@ -27,16 +27,15 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
-    'django.contrib.sitemaps', # added django sitemaps
     'collection', # added collection app
-    'registration', # added django registration redux
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize',
+    'django.contrib.sitemaps', # added django sitemaps
+    'registration', # added django registration redux
 ]
 
 MIDDLEWARE = [
@@ -119,6 +118,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 ACCOUNT_ACTIVATION_DAYS = 7
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -132,8 +134,7 @@ LOGIN_REDIRECT_URL = "home"
 
 # the email address that the "server emails" will come from
 SERVER_EMAIL = 'app_email@mydomain.com'
-
 # the email you want these admins emails to go to, add as many with a trailing comma.
 ADMINS = [
-    ('Bill', 'hello@billphan.com'),
+    ('your name', 'me@mydomain.com'),
 ]

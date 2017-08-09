@@ -34,3 +34,11 @@ class Social(models.Model):
 
     class Meta:
         verbose_name_plural = "Social Media Links"
+
+# our helper, add above the new model
+def get_image_path(instance, filename):
+    return '/'.join(['thing_images', instance.thing.slug, filename])
+
+class Upload(models.Model):
+    thing = models.ForeignKey(Thing, related_name="uploads")
+    image = models.ImageField(upload_to=get_image_path)
