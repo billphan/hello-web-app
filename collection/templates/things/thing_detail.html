@@ -17,7 +17,7 @@
 
   {% comment %} our new loop {% endcomment %}
   {% for upload in uploads %}
-  <img rsc="{{ upload.image.url }}" alt="" />
+  <img src="{{ upload.image.url }}" alt="" />
   {% endfor %}
 
   {% if user == thing.user %}
