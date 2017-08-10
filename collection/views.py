@@ -7,6 +7,8 @@ from django.core.mail import EmailMessage, mail_admins
 from django.template import Context
 from collection.forms import ThingForm, ContactForm
 from collection.models import Thing
+from collection.forms import ThingUploadForm
+from collection.models import Upload
 
 def index(request):
     things = Thing.objects.all()
@@ -114,3 +116,56 @@ def contact(request):
     })
 
 mail_admins("Our subject line", "Our content")
+
+@login_required
+def edit_thing_uploads(request, slug):
+    # grab the object...
+    thing = Thing.objects.get(slug=slug)
+
+    # double checking for security purposes
+    if thing.user != request.user:
+        raise Http404
+
+    # set the form we're using.
+    form_class = ThingUploadForm
+
+    # if we're coming to this view from a submitted form,
+    if request.method == 'POST':
+        # grab the data from the submitted form,
+        # note the new "files" part
+        form = form_class(data=request.POST, files=request.FILES, instance=thing)
+
+        if form.is_valid():
+            # create a new object from the submitted form
+            Upload.objects.create(
+                image=form.cleaned_data['image'],
+                thing=thing,
+            )
+
+            return redirect('edit_thing_uploads', slug=thing.slug)
+
+    # otherwise just create the form
+    else:
+        form = form_class(instance=thing)
+
+    # grab all the object's images
+    uploads = thing.uploads.all()
+
+    # and render the template
+    return render(request, 'things/edit_thing_uploads.html', {
+        'thing': thing,
+        'form': form,
+        'uploads': uploads,
+    })
+
+@login_required
+def delete_upload(request, id):
+    # grab the image
+    upload = Upload.objects.get(id=id)
+    # security check
+    if upload.thing.user != request.user:
+        raise Http404
+    # delete the image
+    upload.delete()
+    # refresh the edit page
+    return redirect('edit_thing_uploads', slug=upload.thing.slug)
