@@ -1,0 +1,29 @@
+{
+  "name": "hello-web-app",
+  "version": "1.0.0",
+  "description": "My Web App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/billphan/hello-web-app.git"
+  },
+  "author": "Bill Phan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/billphan/hello-web-app/issues"
+  },
+  "homepage": "https://github.com/billphan/hello-web-app#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0"
+  },
+  "dependencies": {
+    "autoprefixer": "^7.1.2",
+    "gulp-postcss": "^7.0.0"
+  }
+}
