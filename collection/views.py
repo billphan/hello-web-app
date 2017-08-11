@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect
@@ -32,11 +33,13 @@ def thing_detail(request, slug):
 
 @login_required
 def edit_thing(request, slug):
+    # grab the object
     thing = Thing.objects.get(slug=slug)
 
     if thing.user != request.user:
         raise Http404
 
+    # set the form we're using
     form_class = ThingForm
 
     if request.method == 'POST':
@@ -44,9 +47,14 @@ def edit_thing(request, slug):
 
         if form.is_valid():
             form.save()
+
+            # flash messages
+            messages.success(request, 'Thing details updated.')
             return redirect('thing_detail', slug=thing.slug)
+    # otherwise just create the form
     else:
         form = form_class(instance=thing)
+    # and render the template.
     return render(request, 'things/edit_thing.html', {
             'thing': thing,
             'form': form,
