@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from PIL import Image
 
 class Timestamp(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -42,3 +43,16 @@ def get_image_path(instance, filename):
 class Upload(models.Model):
     thing = models.ForeignKey(Thing, related_name="uploads")
     image = models.ImageField(upload_to=get_image_path)
+
+    def save(self, *args, **kwargs):
+        # this is required when you override save functions
+        super(Upload, self).save(*args, **kwargs)
+
+        if self.image:
+            image = Image.open(self.image)
+            i_width, i_height = image.size
+            max_size = (1000, 1000)
+
+            if i_width > 1000:
+                image.thumbnail(max_size, Image.ANTIALIAS)
+                image.save(self.image.path)
