@@ -1,6 +1,8 @@
+from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
 from collection.models import Thing, Upload
+
 
 class ThingForm(ModelForm):
     class Meta:
@@ -22,4 +24,8 @@ class ThingUploadForm(ModelForm):
     class Meta:
         model = Upload
         fields = ('image',)
-        
+
+class EditEmailForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('email',)

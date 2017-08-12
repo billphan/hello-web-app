@@ -6,10 +6,8 @@ from django.template.defaultfilters import slugify
 from django.template.loader import get_template
 from django.core.mail import EmailMessage, mail_admins
 from django.template import Context
-from collection.forms import ThingForm, ContactForm
-from collection.models import Thing
-from collection.forms import ThingUploadForm
-from collection.models import Upload
+from collection.models import Thing, Upload
+from collection.forms import ThingForm, ContactForm, ThingUploadForm, EditEmailForm
 
 def index(request):
     things = Thing.objects.all()
@@ -177,3 +175,21 @@ def delete_upload(request, id):
     upload.delete()
     # refresh the edit page
     return redirect('edit_thing_uploads', slug=upload.thing.slug)
+
+@login_required
+def edit_email(request, slug):
+    user = request.user
+    form_class = EditEmailForm
+
+    if request.method == 'POST':
+        form = form_class(data=request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Email address updated.')
+            return redirect('thing_detail', slug=slug)
+    else:
+        form = form_class(instance=user)
+
+    return render(request, 'things/edit_email.html', {
+        'form': form,
+    })
