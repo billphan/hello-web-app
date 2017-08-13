@@ -9,15 +9,20 @@
     <title>{% block title %}My Hello Web App Project{% endblock title %}
     </title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+    <link rel="stylesheet" href="{% static 'scss/styles.scss' %}"/>
     {% block header %}
     {% endblock header %}
 
   </head>
 
   <body>
+
     <header>
+
       <h1>Hello Web App</h1>
+
       <nav>
+
         <ul>
           <li><a href="{% url 'home'%}">Home</a></li>
           <li><a href="{% url 'about'%}">About</a></li>
@@ -30,7 +35,9 @@
           <li><a href="{% url 'registration_register' %}">Register</a></li>
           {% endif %}
         </ul>
+
       </nav>
+
     </header>
 
     {% if messages %}
