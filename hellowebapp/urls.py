@@ -32,6 +32,10 @@ urlpatterns = [
     url(r'^delete/(?P<id>[-\w]+)/$', views.delete_upload, name='delete_upload'),
     url(r'^things/(?P<slug>[-\w]+)/edit/email/$', views.edit_email, name='edit_email'),
 
+    # api views
+    url(r'^api/things/$', views.api_thing_list, name="api_thing_list"),
+    url(r'^api/things/(?P<id>[0-9]+)/$', views.api_thing_detail, name="api_thing_detail"),
+
     # browse views
     url(r'^browse/$', RedirectView.as_view(pattern_name='browse')),
     url(r'^browse/name/$', views.browse_by_name, name='browse'),
