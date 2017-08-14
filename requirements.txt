@@ -4,3 +4,4 @@ pytz==2017.2
 hellowebapp-deploy
 psycopg2==2.6.1
 Pillow
+rest_framework
