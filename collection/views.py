@@ -6,8 +6,14 @@ from django.template.defaultfilters import slugify
 from django.template.loader import get_template
 from django.core.mail import EmailMessage, mail_admins
 from django.template import Context
+
 from collection.models import Thing, Upload
 from collection.forms import ThingForm, ContactForm, ThingUploadForm, EditEmailForm
+from collection.serializers import ThingSerializer
+
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 def index(request):
     things = Thing.objects.all()
@@ -193,3 +199,29 @@ def edit_email(request, slug):
     return render(request, 'things/edit_email.html', {
         'form': form,
     })
+
+# add your new view
+@api_view(['GET'])
+def api_thing_list(request):
+    """
+    List all things
+    """
+    if request.method == 'GET':
+        things = Thing.objects.all()
+        serializer = ThingSerializer(things, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def api_thing_detail(request, id):
+    """
+    Get a specific thing
+    """
+    try:
+        thing = Thing.objects.get(id=id)
+    except Thing.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ThingSerializer(thing)
+        return Response(serializer.data)
