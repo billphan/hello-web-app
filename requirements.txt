@@ -5,5 +5,5 @@ hellowebapp-deploy
 psycopg2==2.6.1
 Pillow
 libsass
-rest_framework
+stripe
 djangorestframework
