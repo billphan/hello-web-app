@@ -27,8 +27,6 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
-    'debug_toolbar',
-    'rest_framework', # added rest framework API
     'collection', # added collection app
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps', # added django sitemaps
     'registration', # added django registration redux
+    'rest_framework', # added rest framework API
+    'debug_toolbar', # added debugging toolbar
 ]
 
 MIDDLEWARE = [
@@ -48,7 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware', # added with debugging toolbar
 ]
 
 ROOT_URLCONF = 'hellowebapp.urls'
@@ -133,14 +133,14 @@ EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 EMAIL_PORT = 1025
 
-LOGIN_REDIRECT_URL = "home"
-
 # the email address that the "server emails" will come from
 SERVER_EMAIL = 'app_email@mydomain.com'
 # the email you want these admins emails to go to, add as many with a trailing comma.
 ADMINS = [
     ('your name', 'me@mydomain.com'),
 ]
+
+LOGIN_REDIRECT_URL = "home"
 
 REST_FRAMEWORK = {
     # Use Django's standard 'django.contrib.auth' permissions,

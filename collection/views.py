@@ -1,19 +1,21 @@
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.template.defaultfilters import slugify
 from django.template.loader import get_template
-from django.core.mail import EmailMessage, mail_admins
+from django.core.mail import EmailMessage
 from django.template import Context
-
-from collection.models import Thing, Upload
-from collection.forms import ThingForm, ContactForm, ThingUploadForm, EditEmailForm
-from collection.serializers import ThingSerializer
+from django.core.mail import mail_admins
+from django.contrib import messages
+from django.conf import settings
 
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from collection.forms import ThingForm, ContactForm, ThingUploadForm, EditEmailForm
+from collection.models import Thing, Upload
+from collection.serializers import ThingSerializer
 
 def index(request):
     things = Thing.objects.all()
@@ -42,7 +44,6 @@ def edit_thing(request, slug):
 
     if thing.user != request.user:
         raise Http404
-
     # set the form we're using
     form_class = ThingForm
 
@@ -51,7 +52,6 @@ def edit_thing(request, slug):
 
         if form.is_valid():
             form.save()
-
             # flash messages
             messages.success(request, 'Thing details updated.')
             return redirect('thing_detail', slug=thing.slug)
@@ -93,8 +93,7 @@ def browse_by_name(request, initial=None):
 
 def contact(request):
     form_class = ContactForm
-
-    # new logic!
+    # new logic
     if request.method == 'POST':
         form = form_class(data=request.POST)
 
@@ -102,7 +101,6 @@ def contact(request):
             contact_name = form.cleaned_data['contact_name']
             contact_email = form.cleaned_data['contact_email']
             form_content = form.cleaned_data['content']
-
             # email the profile with the contact info
             template = get_template('contact_template.txt')
 
@@ -131,20 +129,16 @@ mail_admins("Our subject line", "Our content")
 
 @login_required
 def edit_thing_uploads(request, slug):
-    # grab the object...
+    # grab the object.
     thing = Thing.objects.get(slug=slug)
-
     # double checking for security purposes
     if thing.user != request.user:
         raise Http404
-
     # set the form we're using.
     form_class = ThingUploadForm
-
     # if we're coming to this view from a submitted form,
     if request.method == 'POST':
-        # grab the data from the submitted form,
-        # note the new "files" part
+        # grab the data from the submitted form, note the new "files" part
         form = form_class(data=request.POST, files=request.FILES, instance=thing)
 
         if form.is_valid():
@@ -155,14 +149,11 @@ def edit_thing_uploads(request, slug):
             )
 
             return redirect('edit_thing_uploads', slug=thing.slug)
-
     # otherwise just create the form
     else:
         form = form_class(instance=thing)
-
     # grab all the object's images
     uploads = thing.uploads.all()
-
     # and render the template
     return render(request, 'things/edit_thing_uploads.html', {
         'thing': thing,
@@ -203,9 +194,7 @@ def edit_email(request, slug):
 # add your new view
 @api_view(['GET'])
 def api_thing_list(request):
-    """
-    List all things
-    """
+    # list all things
     if request.method == 'GET':
         things = Thing.objects.all()
         serializer = ThingSerializer(things, many=True)
@@ -214,9 +203,7 @@ def api_thing_list(request):
 
 @api_view(['GET'])
 def api_thing_detail(request, id):
-    """
-    Get a specific thing
-    """
+    # grab a specific thing
     try:
         thing = Thing.objects.get(id=id)
     except Thing.DoesNotExist:

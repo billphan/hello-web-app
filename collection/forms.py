@@ -3,7 +3,6 @@ from django.forms import ModelForm
 from django import forms
 from collection.models import Thing, Upload
 
-
 class ThingForm(ModelForm):
     class Meta:
         model = Thing
