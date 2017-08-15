@@ -17,7 +17,7 @@ from rest_framework.response import Response
 
 def index(request):
     things = Thing.objects.all()
-    
+
     return render(request, 'index.html', {
         'things': things,
     })
