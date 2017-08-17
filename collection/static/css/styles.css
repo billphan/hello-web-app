@@ -6073,3 +6073,10 @@ a.text-dark:focus, a.text-dark:hover {
 
 .invisible {
   visibility: hidden !important; }
+
+body {
+  font: 100% Helvetica, sans-serif;
+  color: #333; }
+
+ul {
+  list-style-type: none; }
